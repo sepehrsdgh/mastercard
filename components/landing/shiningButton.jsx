@@ -1,5 +1,5 @@
 "use client"
-
+// Its a button with a shiny white shadow beneath
 function ShiningButton({buttonText}) {
   return (
     <div className="relative w-[85vw] h-12">
