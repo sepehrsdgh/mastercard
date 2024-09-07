@@ -6,11 +6,9 @@ import {
 import { Plus_Jakarta_Sans } from "next/font/google";
 import ShiningButton from "@/components/landing/shiningButton";
 
-// If loading a variable font, you don't need to specify the font weight
-const plus = Plus_Jakarta_Sans({ subsets: ["latin"] });
 export default function Home() {
   return (
-    <main  className="h-[96vh] relative">
+    <main className="h-[96vh] relative">
       {/* ellipese usage => just for graphic design */}
       <EllipsPurple />
       <EllipseBlue />
@@ -26,18 +24,14 @@ export default function Home() {
           </div>
         </div>
         {/* grid row 2 */}
-      <div className={plus.className}>
         <div className="text-[2.2em] text-white absolute top-[56vh] px-[9vw]">
           Mastercard Linked to the Crypto Network!
         </div>
       </div>
-      </div>
-      <div className={plus.className}>
 
       <div className="absolute no-scrollbar overflow-y-hidden  bottom-0 mb-20 left-0 right-0 flex justify-center items-center w-full">
         <ShiningButton buttonText={"Let's go!"} />
-        </div>
-        </div>
+      </div>
     </main>
   );
 }
