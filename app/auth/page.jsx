@@ -9,7 +9,7 @@ function Auth() {
   const [mode, setMode] = useState(modes.login);
 
   return (
-    <div className="bg-white h-screen">
+    <div className="bg-white h-screen  flex flex-col">
       {/* header banner */}
       <div className="bg-gradient-to-l from-[#201348] to-[#0D0D1B] px-5 py-6">
         <div className="mt-4">
@@ -23,9 +23,8 @@ function Auth() {
           Create an account or log in to app.
         </h6>
       </div>
-      {/* headerbanner */}
       {/* body */}
-      <div className="px-5 py-4">
+      <div className="px-5 py-6 flex-grow">
         {/* Login/sign up sitcher */}
         <div className="relative grid grid-cols-2 text-center bg-[#EFEFEF] rounded-xl p-2 text-sm font-medium">
           <button
@@ -46,14 +45,14 @@ function Auth() {
             }`}
           ></div>{" "}
         </div>
-        {/* Login/sign up sitcher */}
       {/* Forms */}
-<div className="mt-6">
-  {mode===modes.login?<LoginForm />:<SignUpForm />}
+      <div className=" w-full h-full overflow-hidden relative">
+<div className={`grid grid-cols-2 w-[200%] h-full transition-transform duration-500 ease-in-out ${mode===modes.signUp?"transform -translate-x-1/2" : ""}`}>
+ <LoginForm />
+ <SignUpForm />
 </div>
-      {/* Forms */}
       </div>
-      {/* body */}
+      </div>
     </div>
   );
 }
