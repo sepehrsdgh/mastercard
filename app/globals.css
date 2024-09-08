@@ -2,31 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
-  background:#0A0A0A;
+  background: white;
   width: 100%;
   height: 100vh;
   overflow: hidden;
-   margin: 0;
+  margin: 0;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
-    /* Chrome, Safari and Opera */
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-  
-    .no-scrollbar::-webkit-scrollbar-track {
-      background-color: transparent;
-    }
-  
-    .no-scrollbar {
-      -ms-overflow-style: none; /* IE and Edge */
-      scrollbar-width: none; /* Firefox */
-    }
-  
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+.text-grad {
+  background-image: linear-gradient(to right, white, rgba(255, 255, 255, 0.6));
+  -webkit-background-clip: text;
+  color: transparent;
+  background-clip: text;
 }

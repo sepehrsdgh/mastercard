@@ -7,15 +7,17 @@ import SignUpForm from "./signUpForm";
 function Auth() {
   const modes = { login: "login", signUp: "signUp" };
   const [mode, setMode] = useState(modes.login);
-
+  const toggleMode = () => {
+    setMode((current) =>
+      current === modes.login ? modes.signUp : modes.login
+    );
+  };
   return (
-    <div className="bg-white h-screen  flex flex-col">
+    <div className="h-screen overflow-y-scroll flex flex-col">
       {/* header banner */}
       <div className="bg-gradient-to-l from-[#201348] to-[#0D0D1B] px-5 py-6">
-        <div className="mt-4">
-          <LogoSVG />
-        </div>
-        <h3 className="mt-4 text-2xl font-bold bg-gradient-to-r from-white to-[#ffffff98] inline-block text-transparent bg-clip-text">
+        <LogoSVG />
+        <h3 className="text-grad mt-4 text-2xl font-bold bg-gradient-to-r from-white to-[#ffffff98] inline-block text-transparent bg-clip-text">
           {/* adding gradiant to text */}
           Get started now
         </h3>
@@ -24,17 +26,17 @@ function Auth() {
         </h6>
       </div>
       {/* body */}
-      <div className="px-5 py-6 flex-grow">
+      <div className="px-5 py-6 flex-grow relative">
         {/* Login/sign up sitcher */}
         <div className="relative grid grid-cols-2 text-center bg-[#EFEFEF] rounded-xl p-2 text-sm font-medium">
           <button
-            onClick={() => setMode(modes.login)}
+            onClick={toggleMode}
             className="rounded-lg py-3 transition-colors z-10"
           >
             Log in
           </button>
           <button
-            onClick={() => setMode(modes.signUp)}
+            onClick={toggleMode}
             className="rounded-lg py-3 transition-colors z-10"
           >
             Sing up
@@ -45,13 +47,18 @@ function Auth() {
             }`}
           ></div>{" "}
         </div>
-      {/* Forms */}
-      <div className=" w-full h-full overflow-hidden relative">
-<div className={`grid grid-cols-2 w-[200%] h-full transition-transform duration-500 ease-in-out ${mode===modes.signUp?"transform -translate-x-1/2" : ""}`}>
- <LoginForm />
- <SignUpForm />
-</div>
-      </div>
+        {/* Forms => transform on x axis when switch betweenn sign up and login */}
+        <div className="w-full h-full overflow-x-hidden relative">
+          <div
+            className={`grid grid-cols-2 w-[200%] h-full transition-transform duration-500 ease-in-out ${
+              mode === modes.signUp && "transform -translate-x-1/2"
+            }`}
+          >
+            <LoginForm toggleMode={toggleMode} />
+
+            <SignUpForm toggleMode={toggleMode} />
+          </div>
+        </div>
       </div>
     </div>
   );

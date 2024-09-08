@@ -9,6 +9,7 @@ import ShiningButton from "@/components/landing/shiningButton";
 export default function Home() {
   return (
     <main className="h-[96vh] relative">
+  <div className="bg-[#0A0A0A] fixed  top-0 bottom-0 left-0 right-0 w-screen h-screen"></div>
       {/* ellipese usage => just for graphic design */}
       <EllipsPurple />
       <EllipseBlue />
@@ -29,8 +30,8 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="absolute no-scrollbar overflow-y-hidden  bottom-0 mb-20 left-0 right-0 flex justify-center items-center w-full">
-        <ShiningButton buttonText={"Let's go!"} />
+      <div className="absolute no-scrollbar overflow-y-hidden w-[85vw] mx-auto  bottom-0 mb-20 left-0 right-0 flex justify-center items-center">
+        <ShiningButton href={"/auth"} buttonText={"Let's go!"} />
       </div>
     </main>
   );
