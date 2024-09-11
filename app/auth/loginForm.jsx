@@ -25,7 +25,7 @@ const LoginForm = ({ toggleMode }) => {
   return (
     <div className="flex flex-col ">
       <form
-        className="flex flex-col justify-between max-h-[calc(100vh-15rem) flex-grow"
+        className="flex flex-col justify-between max-h-[calc(100vh-15rem)] flex-grow"
         onSubmit={handleSubmit(onSubmit)}
       >
         {/* grow flex to push the login button to the bottom */}

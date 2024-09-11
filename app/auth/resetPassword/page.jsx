@@ -14,6 +14,7 @@ function ResetPassword() {
   } = useForm();
   const onSubmit = (data) => {
     console.log(data);
+    location.assign("/auth/resetPassword");
   };
   const [showPassword, setShowPassword] = useState(false); // State for password visibility
   const [showRePassword, setShowRePassword] = useState(false); // State for password visibility
@@ -43,11 +44,11 @@ function ResetPassword() {
         <div className="h-full">
           <div className="flex flex-col h-full">
             <form
-              className="flex flex-col h-full"
+              className="flex flex-col h-full max-h-[calc(100vh-17rem)]"
               onSubmit={handleSubmit(onSubmit)}
             >
               {/* grow flex to push the login button to the bottom */}
-              <div className="h-full">
+              <div className="flex-grow">
                 {/* Email Input */}
                 <div className="mt-4">
                   <label

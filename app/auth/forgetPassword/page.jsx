@@ -38,14 +38,14 @@ function ForgetPassword() {
     
         {/* Forms => transform on x axis when switch betweenn sign up and login */}
         <div className="h-full">
-          <p className="font-bold text-sm text-center">Enter your email for instructions</p>
+          <p className="font-bold mt-3 text-sm text-center">Enter your email for instructions</p>
           <div className="flex flex-col h-full">
       <form
-        className="flex flex-col h-full"
+        className="flex flex-col justify-between h-full max-h-[calc(100vh-24rem)]"
         onSubmit={handleSubmit(onSubmit)}
       >
         {/* grow flex to push the login button to the bottom */}
-        <div className="h-full">
+        <div className="flex-grow">
           {/* Email Input */}
           <div className="mt-6">
             <label className="block text-sm font-medium" htmlFor="email">
