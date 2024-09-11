@@ -14,7 +14,7 @@ function ResetPassword() {
   } = useForm();
   const onSubmit = (data) => {
     console.log(data);
-    location.assign("/auth/resetPassword");
+    location.assign("/main/home")
   };
   const [showPassword, setShowPassword] = useState(false); // State for password visibility
   const [showRePassword, setShowRePassword] = useState(false); // State for password visibility
@@ -32,10 +32,10 @@ function ResetPassword() {
         <LogoSVG />
         <h3 className="text-grad mt-4 text-2xl font-bold bg-gradient-to-r from-white to-[#ffffff98] inline-block text-transparent bg-clip-text">
           {/* adding gradiant to text */}
-          Forget password
+          Reset password
         </h3>
         <h6 className="mt-2 text-sm font-light text-white">
-          Enter the email address you used to register with
+        Enter your new password
         </h6>
       </div>
       {/* body */}

@@ -20,6 +20,7 @@ const LoginForm = ({ toggleMode }) => {
 
   const onSubmit = (data) => {
     console.log(data);
+    location.assign("/main/home")
   };
 
   return (
