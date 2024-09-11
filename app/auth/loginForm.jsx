@@ -1,5 +1,6 @@
 "use client";
 import CustomCheckbox from "@/components/common/customCheckbox";
+import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
@@ -97,9 +98,9 @@ const LoginForm = ({ toggleMode }) => {
               checked={rememberMe}
               onChange={() => setRememberMe((current) => !current)}
             />
-            <a href="#" className="text-sm font-medium text-[#5848A8]">
+            <Link href="/auth/forgetPassword" className="text-sm font-medium text-[#5848A8]">
               Forget Password?
-            </a>
+            </Link>
           </div>
         </div>
         {/* this section is been pushed down due to flex-grow propperty from upper elements */}

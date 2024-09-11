@@ -159,7 +159,7 @@ const SignUpForm = ({ toggleMode }) => {
               />
               <button
                 type="button"
-                className="absolute inset-y-0 right-3 flex items-center text-gray-400"
+                className="absolute inset-y-0 right-3 mt-6 flex items-center text-gray-400"
                 onClick={toggleRePasswordVisibility}
               >
                 {showRePassword ? (
