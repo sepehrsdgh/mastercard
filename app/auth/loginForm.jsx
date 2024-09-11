@@ -22,15 +22,15 @@ const LoginForm = ({ toggleMode }) => {
   };
 
   return (
-    <div className="flex flex-col flex-grow mb-[6.5vh]">
+    <div className="flex flex-col ">
       <form
-        className="flex flex-col flex-grow"
+        className="flex flex-col justify-between max-h-[calc(100vh-15rem) flex-grow"
         onSubmit={handleSubmit(onSubmit)}
       >
         {/* grow flex to push the login button to the bottom */}
-        <div className="flex-grow">
+        <div>
           {/* Email Input */}
-          <div className="mt-8">
+          <div className="mt-6">
             <label className="block text-sm font-medium" htmlFor="email">
               Email
             </label>
@@ -44,7 +44,7 @@ const LoginForm = ({ toggleMode }) => {
               })}
               type="email"
               id="email"
-              className={`mt-2 block w-full px-4 py-3 border ${
+              className={`mt-2 block w-full px-4 py-2 border ${
                 errors.email ? "border-red-500" : "border-gray-300"
               } rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
             />
@@ -56,7 +56,7 @@ const LoginForm = ({ toggleMode }) => {
           </div>
 
           {/* Password Input */}
-          <div className="mt-8">
+          <div className="mt-6">
             <label className="block text-sm font-medium" htmlFor="password">
               Password
             </label>
@@ -67,7 +67,7 @@ const LoginForm = ({ toggleMode }) => {
                 })}
                 type={showPassword ? "text" : "password"} // Toggling between text and password
                 id="password"
-                className={`mt-2 block w-full px-4 py-3 border ${
+                className={`mt-2 block w-full px-4 py-2 border ${
                   errors.password ? "border-red-500" : "border-gray-300"
                 } rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
               />
@@ -91,7 +91,7 @@ const LoginForm = ({ toggleMode }) => {
           </div>
 
           {/* Remember Me and Forgot Password */}
-          <div className="flex items-center justify-between mt-8">
+          <div className="flex items-center justify-between mt-6">
             <CustomCheckbox
               label={"Remember Me"}
               checked={rememberMe}
@@ -103,16 +103,14 @@ const LoginForm = ({ toggleMode }) => {
           </div>
         </div>
         {/* this section is been pushed down due to flex-grow propperty from upper elements */}
-        <div className="">
           {/* Submit Button */}
           <button
             type="submit"
-            className="relative w-full  py-3 bg-[#5848A8] text-white rounded-lg shadow-sm"
+            className="relative w-full py-3 bg-[#5848A8] text-white rounded-lg shadow-sm"
           >
             Login
             <span className="absolute left-[50%] translate-x-[-50%] bottom-0 translate-y-1/2 w-28 h-7 bg-[#cccbd365] rounded-full blur-[12px]"></span>
           </button>
-        </div>
       </form>
       <div className="my-4 text-center flex justify-center items-center">
         <div className="text-sm  text-[#362C6B]">

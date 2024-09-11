@@ -13,7 +13,7 @@ function Auth() {
     );
   };
   return (
-    <div className="h-screen overflow-y-scroll flex flex-col">
+    <div className="h-screen overflow-y-scroll no-scrollbar flex flex-col">
       {/* header banner */}
       <div className="bg-gradient-to-l from-[#201348] to-[#0D0D1B] px-5 py-6">
         <LogoSVG />
@@ -26,9 +26,9 @@ function Auth() {
         </h6>
       </div>
       {/* body */}
-      <div className="px-5 py-6 flex-grow relative">
+      <div className="px-5 py-6 relative">
         {/* Login/sign up sitcher */}
-        <div className="relative grid grid-cols-2 text-center bg-[#EFEFEF] rounded-xl p-2 text-sm font-medium">
+        <div className="relative grid grid-cols-2 text-center bg-[#EFEFEF] rounded-xl p-0.5 text-sm font-medium">
           <button
             onClick={toggleMode}
             className="rounded-lg py-3 transition-colors z-10"
@@ -42,15 +42,15 @@ function Auth() {
             Sing up
           </button>
           <div
-            className={`absolute rounded-lg top-2 bottom-2 left-2 w-[calc(50%-0.5rem)]  bg-white transition-transform duration-500 ease-in-out ${
+            className={`absolute rounded-lg top-1 bottom-1 left-1 w-[calc(50%-0.25rem)]  bg-white transition-transform duration-500 ease-in-out ${
               mode === modes.signUp ? "translate-x-full" : "translate-x-0"
             }`}
           ></div>{" "}
         </div>
         {/* Forms => transform on x axis when switch betweenn sign up and login */}
-        <div className="w-full h-full overflow-x-hidden relative">
+        <div className="w-full  no-scrollbar overflow-x-hidden relative">
           <div
-            className={`grid grid-cols-2 w-[200%] h-full transition-transform duration-500 ease-in-out ${
+            className={`grid grid-cols-2 w-[200%] transition-transform duration-500 ease-in-out ${
               mode === modes.signUp && "transform -translate-x-1/2"
             }`}
           >
