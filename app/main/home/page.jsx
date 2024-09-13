@@ -66,61 +66,6 @@ const accounts = [
     currencySymbol: "₺",
     amount: "417,27",
   },
-  {
-    icon: (
-      <svg
-        width="39"
-        height="39"
-        viewBox="0 0 39 39"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M19.5 37.7812C29.5965 37.7812 37.7812 29.5965 37.7812 19.5C37.7812 9.40354 29.5965 1.21875 19.5 1.21875C9.40354 1.21875 1.21875 9.40354 1.21875 19.5C1.21875 29.5965 9.40354 37.7812 19.5 37.7812Z"
-          fill="#E30917"
-        />
-        <path
-          d="M25.1672 23.7656L25.2281 20.475L21.9375 19.5L25.2281 18.525L25.1672 15.2344L27.1781 17.8547L30.4688 16.8797L28.4578 19.5L30.4688 22.1203L27.1781 21.1453L25.1672 23.7656Z"
-          fill="white"
-        />
-        <path
-          d="M20.2313 26.8125C16.2094 26.8125 12.9797 23.5219 12.9797 19.5C12.9797 15.4781 16.2094 12.1875 20.2313 12.1875C21.7547 12.1875 23.1562 12.675 24.375 13.4672C22.7297 11.5781 20.2922 10.3594 17.55 10.3594C12.5531 10.3594 8.53125 14.4422 8.53125 19.5C8.53125 24.5578 12.5531 28.6406 17.55 28.6406C20.2922 28.6406 22.7297 27.4219 24.375 25.5328C23.2172 26.325 21.8156 26.8125 20.2313 26.8125Z"
-          fill="white"
-        />
-      </svg>
-    ),
-    title: "Turkish Lira",
-    currency: "Lira",
-    currencySymbol: "₺",
-    amount: "417,27",
-  }, {
-    icon: (
-      <svg
-        width="39"
-        height="39"
-        viewBox="0 0 39 39"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M19.5 37.7812C29.5965 37.7812 37.7812 29.5965 37.7812 19.5C37.7812 9.40354 29.5965 1.21875 19.5 1.21875C9.40354 1.21875 1.21875 9.40354 1.21875 19.5C1.21875 29.5965 9.40354 37.7812 19.5 37.7812Z"
-          fill="#E30917"
-        />
-        <path
-          d="M25.1672 23.7656L25.2281 20.475L21.9375 19.5L25.2281 18.525L25.1672 15.2344L27.1781 17.8547L30.4688 16.8797L28.4578 19.5L30.4688 22.1203L27.1781 21.1453L25.1672 23.7656Z"
-          fill="white"
-        />
-        <path
-          d="M20.2313 26.8125C16.2094 26.8125 12.9797 23.5219 12.9797 19.5C12.9797 15.4781 16.2094 12.1875 20.2313 12.1875C21.7547 12.1875 23.1562 12.675 24.375 13.4672C22.7297 11.5781 20.2922 10.3594 17.55 10.3594C12.5531 10.3594 8.53125 14.4422 8.53125 19.5C8.53125 24.5578 12.5531 28.6406 17.55 28.6406C20.2922 28.6406 22.7297 27.4219 24.375 25.5328C23.2172 26.325 21.8156 26.8125 20.2313 26.8125Z"
-          fill="white"
-        />
-      </svg>
-    ),
-    title: "Turkish Lira",
-    currency: "Lira",
-    currencySymbol: "₺",
-    amount: "417,27",
-  },
 ];
 function Home() {
   const tetherRate = 0.029
@@ -169,7 +114,7 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className="absolute top-full -translate-y-[40%] right-0 left-0 w-full ">
+        <div className="absolute top-full -translate-y-[40%] flex justify-center items-center right-0 left-0 w-full ">
           <Mastercard />
         </div>
       </div>
@@ -185,7 +130,7 @@ function Home() {
         <div className="mt-6">
           <h6 className="font-bold text-lg">My wallet</h6>
           {accounts.map((account, i) => (
-            <div key={i} className="flex items-center py-3 border-b-2 border-b-[#E5E5E5] justify-between">
+            <div key={i} className={`flex items-center py-3 ${i==0&&"border-b-2 border-b-[#E5E5E5]"} justify-between`}>
               <div className="flex items-center gap-x-2">
                 {account.icon}
                 <div className="flex flex-col gap-y-1">
