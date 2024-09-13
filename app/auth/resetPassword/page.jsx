@@ -1,6 +1,6 @@
 "use client";
-import LogoSVG from "@/components/common/logoSVG";
-import React, { useState } from "react";
+import LogoSVG from "@/app/common_components/logoSVG";
+import  { useState } from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";

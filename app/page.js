@@ -1,10 +1,9 @@
-import { EllipseBlue, EllipsPurple } from "@/components/landing/Ellipeses";
+import { EllipseBlue, EllipsPurple } from "@/app/common_components/Ellipeses";
 import {
   MasterCardLighSVG,
   MasterCardDarkSVG,
-} from "@/components/landing/masterCardsSVG";
-import { Plus_Jakarta_Sans } from "next/font/google";
-import ShiningButton from "@/components/landing/shiningButton";
+} from "@/app/common_components/masterCardsSVG";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -31,7 +30,13 @@ export default function Home() {
       </div>
 
       <div className="absolute no-scrollbar overflow-y-hidden w-[85vw] mx-auto  bottom-0 mb-20 left-0 right-0 flex justify-center items-center">
-        <ShiningButton href={"/auth"} buttonText={"Let's go!"} />
+      <Link
+    href={"/auth"}
+    className="relative w-full text-center py-3 bg-[#5848A8] text-white rounded-lg shadow-sm"
+  >
+    Lest go!"
+    <span className="absolute left-[50%] translate-x-[-50%] bottom-0 translate-y-1/2 w-28 h-7 bg-[#cccbd365] rounded-full blur-[12px]"></span>
+  </Link>
       </div>
     </main>
   );

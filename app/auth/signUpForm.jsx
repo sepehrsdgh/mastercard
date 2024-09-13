@@ -1,6 +1,5 @@
 "use client";
-import CustomCheckbox from "@/components/common/customCheckbox";
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 const SignUpForm = ({ toggleMode }) => {

@@ -1,9 +1,13 @@
-import React from 'react'
-
+"use client";
+import { useState } from "react";
+import UpperHeader from "../common-componnets/upperHeader";
 function Transfer() {
+  const [totalMoney, setTotalMoney] = useState("");
   return (
-    <div>Transfer</div>
-  )
+    <>
+      <UpperHeader pageName={"Transfer"} totalMoney={totalMoney} />
+    </>
+  );
 }
 
-export default Transfer
+export default Transfer;

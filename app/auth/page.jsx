@@ -1,6 +1,6 @@
 "use client";
-import LogoSVG from "@/components/common/logoSVG";
-import React, { useState } from "react";
+import LogoSVG from "@/app/common_components/logoSVG";
+import { useState } from "react";
 import LoginForm from "./loginForm";
 import SignUpForm from "./signUpForm";
 
