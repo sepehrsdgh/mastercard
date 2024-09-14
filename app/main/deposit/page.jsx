@@ -4,6 +4,7 @@ import UpperHeader from "../common-componnets/upperHeader";
 import { IoCheckmarkDone, IoCopyOutline } from "react-icons/io5";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { useForm } from "react-hook-form";
+import Dialog from "../common-componnets/dialog";
 
 function Deposite() {
   const {
@@ -15,13 +16,15 @@ function Deposite() {
   const [totalMoney, setTotalMoney] = useState("");
   const [address, setAddress] = useState("XoUPdAabwwdL2yvt3ftQtw");
   const [copyClicked, setCopyClicked] = useState(false);
+  const [showDialog,setShowDialog] = useState(false);
 
   const onSubmit = (data) => {
     console.log(data);
+    setShowDialog(true)
   };
 
   return (
-    <>
+    <div className="relative">
       <UpperHeader pageName={"Deposit"} totalMoney={totalMoney} />
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -177,7 +180,28 @@ function Deposite() {
           </button>
         </div>
       </form>
-    </>
+      {showDialog && (
+        <Dialog closeModal={() => setShowDialog(false)}>
+          <div className="mt-6">
+            <div className="flex text-sm justify-between items-center pb-3 border-b-2 border-b-[#E5E5E5] border-dashed">
+              <div>Amount:</div>
+              <div className="font-medium">12USDT</div>
+            </div>
+            <div className="flex text-sm justify-between items-center mt-2 pb-3 border-b-2 border-b-[#E5E5E5] border-dashed">
+              <div>Declared Network:</div>
+              <div className="font-medium">12USDT</div>
+            </div>
+            <div className="flex text-sm justify-between items-center mt-2">
+              <div>Network Fee:</div>
+              <div className="font-medium">3%</div>
+            </div>
+            <div className="mt-8 bg-[#5848A80d] rounded-xl p-3 text-xs font-medium text-[#5848A8]">
+            Note: Please be aware that if the network is incorrectly selected or the destination address is incorrect, there is a risk of losing the funds, and the responsibility will be yours.
+            </div>
+          </div>
+        </Dialog>
+      )}
+    </div>
   );
 }
 

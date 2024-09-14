@@ -34,7 +34,7 @@ export default function Home() {
     href={"/auth"}
     className="relative w-full text-center py-3 bg-[#5848A8] text-white rounded-lg shadow-sm"
   >
-    Lest go!"
+    Lest go!
     <span className="absolute left-[50%] translate-x-[-50%] bottom-0 translate-y-1/2 w-28 h-7 bg-[#cccbd365] rounded-full blur-[12px]"></span>
   </Link>
       </div>

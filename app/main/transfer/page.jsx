@@ -3,6 +3,7 @@ import { useState } from "react";
 import UpperHeader from "../common-componnets/upperHeader";
 import { useForm } from "react-hook-form";
 import { AiOutlineInfoCircle } from "react-icons/ai";
+import Dialog from "../common-componnets/dialog";
 const deductions = [0.2, 0.4, 0.6, 0.8];
 function Transfer() {
   const {
@@ -12,13 +13,15 @@ function Transfer() {
   } = useForm();
 
   const [totalMoney, setTotalMoney] = useState(390.38);
+  const [showDialog, setShowDialog] = useState(true);
 
   const onSubmit = (data) => {
     console.log(data);
+    setShowDialog(true);
   };
 
   return (
-    <>
+    <div className="relative">
       <UpperHeader pageName={"Transfer"} totalMoney={totalMoney} />
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -116,23 +119,20 @@ function Transfer() {
           {/* Transaction Link */}
           <div className="mt-6">
             <div className="block text-sm font-medium">Description</div>
-            
-              <input
-                id="description"
-                type="text"
-                className="w-full focus:outline-none mt-2 flex items-center bg-white justify-between p-3 rounded-md
+
+            <input
+              id="description"
+              type="text"
+              className="w-full focus:outline-none mt-2 flex items-center bg-white justify-between p-3 rounded-md
               border border-r-0 border-gray-300"
-                {...register("description")}
-              />
-          
+              {...register("description")}
+            />
           </div>
         </div>
         <div>
           <div className="flex text-sm justify-between items-center">
             <div>Transfer fee:</div>
-            <div className="font-medium">
-              free
-            </div>
+            <div className="font-medium">free</div>
           </div>
           <button
             type="submit"
@@ -143,7 +143,26 @@ function Transfer() {
           </button>
         </div>
       </form>
-    </>
+      {/* confirmation modal */}
+      {showDialog && (
+        <Dialog closeModal={() => setShowDialog(false)}>
+          <div className="mt-6">
+            <div className="flex text-sm justify-between items-center pb-3 border-b-2 border-b-[#E5E5E5] border-dashed">
+              <div>Amount:</div>
+              <div className="font-medium">12USDT</div>
+            </div>
+            <div className="flex text-sm justify-between items-center mt-2">
+              <div>Destination Account ID:</div>
+              <div className="font-medium">12USDT</div>
+            </div>
+            <div className="mt-8 bg-[#5848A80d] rounded-xl p-3 text-xs font-medium text-[#5848A8]">
+              I confirm that I want to transfer the specified amount to the
+              destination account ID.
+            </div>
+          </div>
+        </Dialog>
+      )}
+    </div>
   );
 }
 
