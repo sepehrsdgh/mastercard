@@ -6,18 +6,20 @@ import { useRouter } from "next/navigation";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { BiLoader } from "react-icons/bi";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 const SignUpForm = ({ toggleMode }) => {
+  const router = useRouter();
   const {
     register,
     watch,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { triggerAlert } = useAlert();
-const router = useRouter()
+  const [pendingStatus, setPendingStatus] = useState(false);
   const [showPassword, setShowPassword] = useState(false); // State for password visibility
   const [showRePassword, setShowRePassword] = useState(false); // State for password visibility
+  const { triggerAlert } = useAlert(); // to triger alert when sign up successfuly/failed
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
@@ -27,27 +29,32 @@ const router = useRouter()
   };
 
   const onSubmit = async (data) => {
-//409 email repeated
-//403 passfor wrong format
-// 400 email wrong format
-// triggerAlert({title:"success",message:"signed up successfully!", type:"success"})
-try{
-
-  const { name, lastName, email, password } = data;
-  const response = await axiosInstance.post(API_ROUTES.signup, {
-      name,
-      lastName,
-      email,
-      password,
-    });
-if(response.status==201){
-  triggerAlert({title:"Welcome aboard",message:"signed up successfully!", type:alertTypes.success})
-  console.log(response)
-  router.push("/main/home")
-}
-  }catch(e){
-    console.log(e)
-  }
+    //409 email repeated
+    //403 passfor wrong format
+    // 400 email wrong format
+    // triggerAlert({title:"success",message:"signed up successfully!", type:"success"})
+    try {
+      const { name, lastName, email, password } = data;
+      setPendingStatus(true);
+      const response = await axiosInstance.post(API_ROUTES.signup, {
+        name,
+        lastName,
+        email,
+        password,
+      });
+      if (response.status == 201) {
+        triggerAlert({
+          title: "Welcome aboard",
+          message: "signed up successfully!",
+          type: alertTypes.success,
+        });
+        console.log(response);
+        router.push("/main/home");
+      }
+    } catch (e) {
+      setPendingStatus(false);
+      console.log(e);
+    }
   };
 
   return (
@@ -138,7 +145,8 @@ if(response.status==201){
                   required: "Password is required",
                   pattern: {
                     value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
-                    message: "Password must contain at least one letter, one number, and be at least 6 characters long",
+                    message:
+                      "Password must contain at least one letter, one number, and be at least 6 characters long",
                   },
                 })}
                 type={showPassword ? "text" : "password"} // Toggling between text and password
@@ -209,9 +217,9 @@ if(response.status==201){
         {/* Submit Button */}
         <button
           type="submit"
-          className="relative w-full mt-6 py-3 bg-[#5848A8] text-white rounded-lg shadow-sm"
+          className={`relative w-full mt-6 py-3 text-white rounded-lg shadow-sm flex items-center justify-center ${pendingStatus?"bg-blue-500":"bg-[#5848A8]"}`}
         >
-          Sign up
+          {pendingStatus ? <BiLoader size={28} /> : "Sign up"}
           <span className="absolute left-[50%] translate-x-[-50%] bottom-0 translate-y-1/2 w-28 h-7 bg-[#cccbd365] rounded-full blur-[12px]"></span>
         </button>
       </form>
