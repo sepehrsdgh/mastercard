@@ -13,7 +13,7 @@ function Transfer() {
   } = useForm();
 
   const [totalMoney, setTotalMoney] = useState(390.38);
-  const [showDialog, setShowDialog] = useState(true);
+  const [showDialog, setShowDialog] = useState(false);
 
   const onSubmit = (data) => {
     console.log(data);

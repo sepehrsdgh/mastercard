@@ -1,5 +1,10 @@
 "use client";
-import  { useState } from "react";
+import { alertTypes, useAlert } from "@/context/alertContext";
+import axiosInstance from "@/lib/axios";
+import { API_ROUTES } from "@/utils/routes";
+import { useRouter } from "next/navigation";
+
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 const SignUpForm = ({ toggleMode }) => {
@@ -9,7 +14,8 @@ const SignUpForm = ({ toggleMode }) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const { triggerAlert } = useAlert();
+const router = useRouter()
   const [showPassword, setShowPassword] = useState(false); // State for password visibility
   const [showRePassword, setShowRePassword] = useState(false); // State for password visibility
 
@@ -20,9 +26,28 @@ const SignUpForm = ({ toggleMode }) => {
     setShowRePassword((prevState) => !prevState);
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
-    location.assign("/main/home")
+  const onSubmit = async (data) => {
+//409 email repeated
+//403 passfor wrong format
+// 400 email wrong format
+// triggerAlert({title:"success",message:"signed up successfully!", type:"success"})
+try{
+
+  const { name, lastName, email, password } = data;
+  const response = await axiosInstance.post(API_ROUTES.signup, {
+      name,
+      lastName,
+      email,
+      password,
+    });
+if(response.status==201){
+  triggerAlert({title:"Welcome aboard",message:"signed up successfully!", type:alertTypes.success})
+  console.log(response)
+  router.push("/main/home")
+}
+  }catch(e){
+    console.log(e)
+  }
   };
 
   return (
@@ -111,6 +136,10 @@ const SignUpForm = ({ toggleMode }) => {
               <input
                 {...register("password", {
                   required: "Password is required",
+                  pattern: {
+                    value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
+                    message: "Password must contain at least one letter, one number, and be at least 6 characters long",
+                  },
                 })}
                 type={showPassword ? "text" : "password"} // Toggling between text and password
                 id="password"
@@ -159,7 +188,7 @@ const SignUpForm = ({ toggleMode }) => {
               />
               <button
                 type="button"
-                className="absolute inset-y-0 right-3 mt-6 flex items-center text-gray-400"
+                className="absolute inset-y-0 right-3  flex items-center text-gray-400"
                 onClick={toggleRePasswordVisibility}
               >
                 {showRePassword ? (
@@ -177,14 +206,14 @@ const SignUpForm = ({ toggleMode }) => {
           </div>
         </div>
         {/* this section is been pushed down due to flex-grow propperty from upper elements */}
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="relative w-full mt-6 py-3 bg-[#5848A8] text-white rounded-lg shadow-sm"
-          >
-            Sign up
-            <span className="absolute left-[50%] translate-x-[-50%] bottom-0 translate-y-1/2 w-28 h-7 bg-[#cccbd365] rounded-full blur-[12px]"></span>
-          </button>
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="relative w-full mt-6 py-3 bg-[#5848A8] text-white rounded-lg shadow-sm"
+        >
+          Sign up
+          <span className="absolute left-[50%] translate-x-[-50%] bottom-0 translate-y-1/2 w-28 h-7 bg-[#cccbd365] rounded-full blur-[12px]"></span>
+        </button>
       </form>
       <div className="mt-4 text-center flex justify-center items-center">
         <div className="text-sm  text-[#362C6B]">

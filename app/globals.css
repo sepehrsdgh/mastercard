@@ -5,8 +5,6 @@
 body {
   background: white;
   width: 100%;
-  /* height: 100vh; */
-  /* overflow: hidden; */
   margin: 0;
 }
 
@@ -28,7 +26,25 @@ body {
     scrollbar-width: none; /* Firefox */
   }
 }
+/* global Alert system */
 
+.alert.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.alert.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.alert.warning {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+
+/* text gradiant */
 .text-grad {
   background-image: linear-gradient(to right, white, rgba(255, 255, 255, 0.6));
   -webkit-background-clip: text;
