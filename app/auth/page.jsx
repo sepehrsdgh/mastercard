@@ -30,13 +30,13 @@ function Auth() {
         {/* Login/sign up sitcher */}
         <div className="relative grid grid-cols-2 text-center bg-[#EFEFEF] rounded-xl p-0.5 text-sm font-medium">
           <button
-            onClick={toggleMode}
+            onClick={()=>setMode(modes.login)}
             className="rounded-lg py-3 transition-colors z-10"
           >
             Log in
           </button>
           <button
-            onClick={toggleMode}
+            onClick={()=>setMode(modes.signUp)}
             className="rounded-lg py-3 transition-colors z-10"
           >
             Sing up

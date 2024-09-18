@@ -16,9 +16,9 @@ const SignUpForm = ({ toggleMode }) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [pendingStatus, setPendingStatus] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // State for password visibility
-  const [showRePassword, setShowRePassword] = useState(false); // State for password visibility
+  const [pendingStatus, setPendingStatus] = useState(false); //to indicate submission process
+  const [showPassword, setShowPassword] = useState(false); // for password visibility
+  const [showRePassword, setShowRePassword] = useState(false); // for repassword visibility
   const { triggerAlert } = useAlert(); // to triger alert when sign up successfuly/failed
 
   const togglePasswordVisibility = () => {
@@ -29,31 +29,72 @@ const SignUpForm = ({ toggleMode }) => {
   };
 
   const onSubmit = async (data) => {
-    //409 email repeated
-    //403 passfor wrong format
-    // 400 email wrong format
-    // triggerAlert({title:"success",message:"signed up successfully!", type:"success"})
     try {
       const { name, lastName, email, password } = data;
+      // Set pending status to true to indicate submission process
       setPendingStatus(true);
+
       const response = await axiosInstance.post(API_ROUTES.signup, {
         name,
         lastName,
         email,
         password,
       });
-      if (response.status == 201) {
+
+      if (response.status === 201) {
         triggerAlert({
           title: "Welcome aboard",
-          message: "signed up successfully!",
+          message: "Navigating to app in a moment...",
           type: alertTypes.success,
         });
-        console.log(response);
+        // Navigate to home page after successful signup
         router.push("/main/home");
       }
-    } catch (e) {
+    } catch (error) {
+      // Reset pending status in case of an error
       setPendingStatus(false);
-      console.log(e);
+      console.error(error);
+
+      // Check error response and handle specific status codes
+      if (error.response) {
+        const { status } = error.response;
+
+        // Handle specific error statuses
+        if (status === 409) {
+          triggerAlert({
+            title: "Email already exists",
+            message: "The email you provided is already in use.",
+            type: alertTypes.error,
+          });
+        } else if (status === 403) {
+          triggerAlert({
+            title: "Invalid Password",
+            message:
+              "Password must contain at least one letter, one number, and be at least 6 characters long.",
+            type: alertTypes.error,
+          });
+        } else if (status === 400) {
+          triggerAlert({
+            title: "Invalid Email",
+            message: "Please enter a valid email address.",
+            type: alertTypes.error,
+          });
+        } else {
+          // Generic error message for other statuses
+          triggerAlert({
+            title: "Signup Failed",
+            message: "Something went wrong. Please try again.",
+            type: alertTypes.error,
+          });
+        }
+      } else {
+        // Handle cases where there is no response (e.g., network errors)
+        triggerAlert({
+          title: "Network Error",
+          message: "Please check your internet connection and try again.",
+          type: alertTypes.error,
+        });
+      }
     }
   };
 
@@ -217,9 +258,11 @@ const SignUpForm = ({ toggleMode }) => {
         {/* Submit Button */}
         <button
           type="submit"
-          className={`relative w-full mt-6 py-3 text-white rounded-lg shadow-sm flex items-center justify-center ${pendingStatus?"bg-blue-500":"bg-[#5848A8]"}`}
+          className={`relative min-h-12 w-full mt-6 py-3 text-white rounded-lg shadow-sm flex items-center justify-center ${
+            pendingStatus ? "bg-[#5848a8d0]" : "bg-[#5848A8]"
+          }`}
         >
-          {pendingStatus ? <BiLoader size={28} /> : "Sign up"}
+          {pendingStatus ? <div class="loader"></div> : "Sign up"}
           <span className="absolute left-[50%] translate-x-[-50%] bottom-0 translate-y-1/2 w-28 h-7 bg-[#cccbd365] rounded-full blur-[12px]"></span>
         </button>
       </form>

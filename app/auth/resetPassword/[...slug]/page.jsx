@@ -1,23 +1,90 @@
 "use client";
 import LogoSVG from "@/app/common_components/logoSVG";
-import  { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import { alertTypes, useAlert } from "@/context/alertContext";
+import { API_ROUTES } from "@/utils/routes";
+import axiosInstance from "@/lib/axios";
 
-function ResetPassword() {
+function ResetPassword({ params }) {
   const {
     register,
     watch,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
-    location.assign("/main/home")
-  };
+
+  const [pendingStatus, setPendingStatus] = useState(false); //to indicate submission process
   const [showPassword, setShowPassword] = useState(false); // State for password visibility
   const [showRePassword, setShowRePassword] = useState(false); // State for password visibility
+  const { triggerAlert } = useAlert(); // to triger alert when sign up successfuly/failed
+
+  const onSubmit = async (data) => {
+    try {
+      setPendingStatus(true);
+
+      const response = await axiosInstance.get(
+        `${API_ROUTES.changePassword}/${params.slug.join("/")}/${data.password}`
+      );
+
+      if (response.status === 200) {
+        triggerAlert({
+          title: "Password Changed",
+          message: "Navigating to the app in a moment...",
+          type: alertTypes.success,
+        });
+        // Navigate to home page after successful password reset
+        router.push("/main/home");
+      }
+    } catch (error) {
+      // Reset pending status in case of an error
+      setPendingStatus(false);
+      console.error(error);
+      // Check error response and handle specific status codes
+      if (error.response) {
+        const { status } = error.response;
+        // Handle specific error statuses
+        if (status === 403) {
+          triggerAlert({
+            title: "User Not Found",
+            message:
+              "User not found. Please check the URL Address and try again.",
+            type: alertTypes.error,
+          });
+        } else if (status === 406) {
+          triggerAlert({
+            title: "Invalid Password",
+            message:
+              "Password must contain at least one letter, one number, and be at least 6 characters long.",
+            type: alertTypes.error,
+          });
+        } else if (status === 500) {
+          triggerAlert({
+            title: "Server Error",
+            message:
+              "An internal server error occurred. Please try again later.",
+            type: alertTypes.error,
+          });
+        } else {
+          // Generic error message for other statuses
+          triggerAlert({
+            title: "Password Reset Failed",
+            message: "Something went wrong. Please try again.",
+            type: alertTypes.error,
+          });
+        }
+      } else {
+        // Handle cases where there is no response (e.g., network errors)
+        triggerAlert({
+          title: "Network Error",
+          message: "Please check your internet connection and try again.",
+          type: alertTypes.error,
+        });
+      }
+    }
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
@@ -35,7 +102,7 @@ function ResetPassword() {
           Reset password
         </h3>
         <h6 className="mt-2 text-sm font-light text-white">
-        Enter your new password
+          Enter your new password
         </h6>
       </div>
       {/* body */}
@@ -61,6 +128,11 @@ function ResetPassword() {
                     <input
                       {...register("password", {
                         required: "Password is required",
+                        pattern: {
+                          value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
+                          message:
+                            "Password must contain at least one letter, one number, and be at least 6 characters long",
+                        },
                       })}
                       type={showPassword ? "text" : "password"} // Toggling between text and password
                       id="password"
@@ -133,9 +205,9 @@ function ResetPassword() {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="relative w-full  py-3 bg-[#5848A8] text-white rounded-lg shadow-sm"
-              >
-                Reset Password
+                className={`relative min-h-12 w-full mt-6 py-3 text-white rounded-lg shadow-sm flex items-center justify-center ${pendingStatus?"bg-[#5848a8d0]":"bg-[#5848A8]"}`}
+                >
+                  {pendingStatus ? <div class="loader"></div> : "Reset Password"}
                 <span className="absolute left-[50%] translate-x-[-50%] bottom-0 translate-y-1/2 w-28 h-7 bg-[#cccbd365] rounded-full blur-[12px]"></span>
               </button>
             </form>
