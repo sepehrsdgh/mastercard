@@ -35,7 +35,7 @@ const LoginForm = ({ toggleMode }) => {
       const response = await axiosInstance.post(API_ROUTES.login, {
         email,
         password,
-        LongOrShortToken:rememberMe
+        LongOrShortToken:rememberMe,
       });
   
       if (response.status === 200) {
@@ -108,7 +108,7 @@ const LoginForm = ({ toggleMode }) => {
           {/* Email Input */}
           <div className="mt-6">
             <label className="block text-sm font-medium" htmlFor="email">
-              Email
+              Email.
             </label>
             <input
               {...register("email", {
