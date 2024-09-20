@@ -24,7 +24,6 @@ function ResetPassword({ params }) {
   const onSubmit = async (data) => {
     try {
       setPendingStatus(true);
-
       const response = await axiosInstance.get(
         `${API_ROUTES.changePassword}/${params.slug.join("/")}/${data.password}`
       );
