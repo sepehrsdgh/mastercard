@@ -1,12 +1,10 @@
 "use client";
 import { alertTypes, useAlert } from "@/context/alertContext";
-import axiosInstance from "@/lib/axios";
+import {axiosInstance} from "@/lib/axios";
 import { API_ROUTES } from "@/utils/routes";
 import { useRouter } from "next/navigation";
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { BiLoader } from "react-icons/bi";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 const SignUpForm = ({ toggleMode }) => {
   const router = useRouter();
@@ -40,7 +38,7 @@ const SignUpForm = ({ toggleMode }) => {
         email,
         password,
       });
-
+console.log(response)
       if (response.status === 201) {
         triggerAlert({
           title: "Welcome aboard",
@@ -160,7 +158,7 @@ const SignUpForm = ({ toggleMode }) => {
                 pattern: {
                   value: /^\S+@\S+$/i,
                   message: "Invalid email address",
-                },
+                }
               })}
               type="email"
               id="email"
@@ -262,7 +260,7 @@ const SignUpForm = ({ toggleMode }) => {
             pendingStatus ? "bg-[#5848a8d0]" : "bg-[#5848A8]"
           }`}
         >
-          {pendingStatus ? <div class="loader"></div> : "Sign up"}
+          {pendingStatus ? <div className="loader"></div> : "Sign up"}
           <span className="absolute left-[50%] translate-x-[-50%] bottom-0 translate-y-1/2 w-28 h-7 bg-[#cccbd365] rounded-full blur-[12px]"></span>
         </button>
       </form>

@@ -1,7 +1,7 @@
 "use client";
 import CustomCheckbox from "@/app/common_components/customCheckbox";
 import { alertTypes, useAlert } from "@/context/alertContext";
-import axiosInstance from "@/lib/axios";
+import {axiosInstance} from "@/lib/axios";
 import { API_ROUTES } from "@/utils/routes";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -108,7 +108,7 @@ const LoginForm = ({ toggleMode }) => {
           {/* Email Input */}
           <div className="mt-6">
             <label className="block text-sm font-medium" htmlFor="email">
-              Email.
+              Email
             </label>
             <input
               {...register("email", {
@@ -184,7 +184,7 @@ const LoginForm = ({ toggleMode }) => {
           type="submit"
           className={`relative min-h-12 w-full mt-6 py-3 text-white rounded-lg shadow-sm flex items-center justify-center ${pendingStatus?"bg-[#5848a8d0]":"bg-[#5848A8]"}`}
         >
-          {pendingStatus ? <div class="loader"></div> : "Login"}
+          {pendingStatus ? <div className="loader"></div> : "Login"}
             <span className="absolute left-[50%] translate-x-[-50%] bottom-0 translate-y-1/2 w-28 h-7 bg-[#cccbd365] rounded-full blur-[12px]"></span>
           </button>
       </form>
