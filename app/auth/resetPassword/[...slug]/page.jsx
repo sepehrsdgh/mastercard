@@ -7,6 +7,7 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { alertTypes, useAlert } from "@/context/alertContext";
 import { API_ROUTES } from "@/utils/routes";
 import {axiosInstance} from "@/lib/axios";
+import { useRouter } from "next/navigation";
 
 function ResetPassword({ params }) {
   const {
@@ -20,7 +21,7 @@ function ResetPassword({ params }) {
   const [showPassword, setShowPassword] = useState(false); // State for password visibility
   const [showRePassword, setShowRePassword] = useState(false); // State for password visibility
   const { triggerAlert } = useAlert(); // to triger alert when sign up successfuly/failed
-
+const router = useRouter()
   const onSubmit = async (data) => {
     try {
       setPendingStatus(true);
@@ -47,11 +48,12 @@ function ResetPassword({ params }) {
         // Handle specific error statuses
         if (status === 403) {
           triggerAlert({
-            title: "User Not Found",
+            title: "Invalid credentials",
             message:
-              "User not found. Please check the URL Address and try again.",
+              "Try to get another instructions",
             type: alertTypes.error,
           });
+        router.push("/auth/forgetPassword");
         } else if (status === 406) {
           triggerAlert({
             title: "Invalid Password",

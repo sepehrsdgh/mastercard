@@ -3,15 +3,13 @@ import { API_ROUTES } from "@/utils/routes";
 import { axiosInstanceBackend } from "@/lib/axios";
 
 export async function POST(request) {
-    try {
-      const { searchParams } = new URL(request.url);
-      const q = searchParams.get("q");
-      console.log("param", q)
-    // Make a GET request to the external authentication server
-    const externalResponse = await axiosInstanceBackend.get(
-      `${API_ROUTES.changePassword}/${q}`
+  try {
+    const body = await request.json();
+    const { email } = body;
+    // Make a POST request to the external authentication server
+    const externalResponse = await axiosInstanceBackend.post(
+      API_ROUTES.forgetPassword,{email}
     );
-console.log("sdsdsdssdsd",externalResponse.status);
 
     if (externalResponse.status === 200) {
       const response = NextResponse.json(
