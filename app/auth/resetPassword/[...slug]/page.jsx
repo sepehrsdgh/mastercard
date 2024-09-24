@@ -6,7 +6,7 @@ import Link from "next/link";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { alertTypes, useAlert } from "@/context/alertContext";
 import { API_ROUTES } from "@/utils/routes";
-import {axiosInstance} from "@/lib/axios";
+import { axiosInstanceBackend } from "@/lib/axios";
 import { useRouter } from "next/navigation";
 
 function ResetPassword({ params }) {
@@ -25,8 +25,8 @@ const router = useRouter()
   const onSubmit = async (data) => {
     try {
       setPendingStatus(true);
-      const response = await axiosInstance.get(
-        `${API_ROUTES.changePassword}?q=${params.slug.join("/")}/${data.password}`
+      const response = await axiosInstanceBackend.get(
+        `${API_ROUTES.changePassword}/${params.slug.join("/")}/${data.password}`
       );
 
       if (response.status === 200) {

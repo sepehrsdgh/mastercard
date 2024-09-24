@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { TbSmartHome } from "react-icons/tb";
 import { BsArrowUpRightCircle } from "react-icons/bs";
 import { FaRegCircleUser } from "react-icons/fa6";
+import { UserProvider } from "@/context/userContext";
 
 export default function MainLayout({ children }) {
   const pathname = usePathname(); // Get the current path
@@ -26,8 +27,8 @@ export default function MainLayout({ children }) {
     },
   ];
   return (
-    <>
-      <main className="bg-[#F6F8FA]">{children}</main>
+      <UserProvider>   
+        <main className="bg-[#F6F8FA]">{children}</main>
       <footer className="fixed border-t-2 border-t-[#E5E5E5] bottom-0 left-0 py-3 right-0 bg-[#FDFDFD] flex items-center justify-around">
         {/* You can add your footer content here */}
         {mainRoutes.map((route, i) => (
@@ -40,11 +41,13 @@ export default function MainLayout({ children }) {
           >
             {route.icon}
             {route.title}
-            { pathname === route.href&&<div className="absolute -bottom-3 -right-3 -left-3 bg-[#5848A8] h-0.5"></div>}
+            {pathname === route.href && (
+              <div className="absolute -bottom-3 -right-3 -left-3 bg-[#5848A8] h-0.5"></div>
+            )}
           </Link>
         ))}
       </footer>
-    </>
+        </UserProvider>
   );
 }
 

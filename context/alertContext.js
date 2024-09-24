@@ -24,7 +24,7 @@ export const AlertProvider = ({ children }) => {
     // Automatically hide the alert after 3 seconds
     setTimeout(() => {
       closeAlert()
-    }, 3000);
+    }, 5000);
   };
 
   const closeAlert = () =>{setAlertConfig((prev) => ({

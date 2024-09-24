@@ -1,8 +1,11 @@
+"use client"
 import { FaCircleUser } from "react-icons/fa6";
 import { BiTransferAlt } from "react-icons/bi";
 import { LiaInfoCircleSolid } from "react-icons/lia";
 import { VscKey } from "react-icons/vsc";
 import Link from "next/link";
+import { useUser } from "@/context/userContext";
+import Loader from "@/app/common_components/loader";
 const accounts = [
   {
     icon: (
@@ -67,10 +70,12 @@ const accounts = [
   },
 ];
 function Home() {
+  const { user, loading, error, refetch } = useUser();
   return (
     <>
+    {loading&&<Loader/>}
       {/* from top of the home page to visual presentation of card */}
-      <UpperBody />
+      <UpperBody user={user} />
       {/* My wallet section*/}
       <LowerBody />
     </>
@@ -82,7 +87,7 @@ export default Home;
 {
   /* from top of the home page to visual presentation of card */
 }
-function UpperBody() {
+function UpperBody({user}) {
   return (
     <div className="bg-[#070619] px-5 pt-3 pb-28 text-white relative">
       <BGPattern />
@@ -92,7 +97,7 @@ function UpperBody() {
             <FaCircleUser size={36} />
             <div>
               <div className="text-xs text-[#ffffffd2] flex">
-                Hello, Milad <WavingHandSVG />
+                Hello, {user?.name} <WavingHandSVG />
               </div>
               <div className="text-[#FBFBFB] text-sm">
                 Welcome to{" "}

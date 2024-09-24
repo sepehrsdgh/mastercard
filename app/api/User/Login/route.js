@@ -42,7 +42,6 @@ export async function POST(request) {
   } catch (error) {
       // Handle different types of errors
       if (error.response) {
-        console.log("external server error", error.response?.data);
       // Errors returned from the external server
       return NextResponse.json(
         {
@@ -52,7 +51,6 @@ export async function POST(request) {
       );
     } else {
       // Handle other types of errors (e.g., network errors)
-      console.error("Internal server error:", error.message);
       return NextResponse.json(
         {
           message: "Internal Server Error",

@@ -4,7 +4,7 @@ import Link from "next/link";
 import  { useState } from "react";
 import { useForm } from "react-hook-form";
 import LogoSVG from "@/app/common_components/logoSVG";
-import { axiosInstance } from "@/lib/axios";
+import { axiosInstanceBackend } from "@/lib/axios";
 import { API_ROUTES } from "@/utils/routes";
 
 function ForgetPassword() {
@@ -23,7 +23,7 @@ function ForgetPassword() {
       // Set pending status to true to indicate submission process
       setPendingStatus(true);
 
-      const response = await axiosInstance.post(API_ROUTES.forgetPassword, {
+      const response = await axiosInstanceBackend.post(API_ROUTES.forgetPassword, {
         email,
       });
 
