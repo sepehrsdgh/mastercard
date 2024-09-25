@@ -4,5 +4,6 @@ export const API_ROUTES = {
     forgetPassword:"/User/ForgetPassword",
     changePassword:"/User/ChangePassword",
     getUserInfo:"/User/GetUserInfo",
+    UpdateUserInfo:"/User/UpdateUserInfo",
   };
   

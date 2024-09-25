@@ -1,26 +1,33 @@
-import { axiosInstance } from '@/lib/axios';
-import { API_ROUTES } from '@/utils/routes';
-import { createContext, useContext, useState, useEffect } from 'react';
-import { alertTypes, useAlert } from './alertContext';
+import { axiosInstance } from "@/lib/axios";
+import { API_ROUTES } from "@/utils/routes";
+import { createContext, useContext, useState, useEffect } from "react";
+import { alertTypes, useAlert } from "./alertContext";
 
 // Define the context
 const UserContext = createContext();
 
 // Define the provider component
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({
+    email:"",
+    havedeposit:"",
+    lastname:"",
+    name:"",
+    total:"",
+    uid:"",
+    lirarate:""
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { triggerAlert } = useAlert();  // Access the triggerAlert function
+  const { triggerAlert } = useAlert(); // Access the triggerAlert function
 
   // Function to fetch user data from the server
   const fetchUserData = async () => {
     try {
       const response = await axiosInstance.get(API_ROUTES.getUserInfo);
-      console.log(response.data)
-      setUser(response.data);  // Assuming response.data contains the user object
+      setUser(response.data.value); // Assuming response.data contains the user object
     } catch (err) {
-      setError(err.message || 'Error fetching user data');
+      setError(err.message || "Error fetching user data");
       triggerAlert({
         title: "Error",
         message: "Something went wrong. Please try again later.",
@@ -37,7 +44,9 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, loading, error, refetch: fetchUserData }}>
+    <UserContext.Provider
+      value={{ user, setUser, loading, setLoading, error, refetch: fetchUserData }}
+    >
       {children}
     </UserContext.Provider>
   );
