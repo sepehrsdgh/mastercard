@@ -5,27 +5,88 @@ import { IoCheckmarkDone, IoCopyOutline } from "react-icons/io5";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import Dialog from "../common-componnets/dialog";
+import { useUser } from "@/context/userContext";
+import { axiosInstance } from "@/lib/axios";
+import { API_ROUTES } from "@/utils/routes";
+import { alertTypes, useAlert } from "@/context/alertContext";
+import { transaction } from "@/utils/values";
 
 function Deposite() {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm();
 
-  const [totalMoney, setTotalMoney] = useState("");
-  const [address, setAddress] = useState("XoUPdAabwwdL2yvt3ftQtw");
+  const { user } = useUser();
+
   const [copyClicked, setCopyClicked] = useState(false);
   const [showDialog,setShowDialog] = useState(false);
+  const [pendingStatus, setPendingStatus] = useState(false);//to indicate submission process
+
+  const { triggerAlert } = useAlert(); // to triger alert when sign up successfuly/failed
 
   const onSubmit = (data) => {
-    console.log(data);
     setShowDialog(true)
   };
 
+const sendData = async () =>{
+  try {
+    setShowDialog(false);
+    setPendingStatus(true);
+    // Set pending status to true to indicate submission process
+    const response = await axiosInstance.post(API_ROUTES.saveTransaction, {
+      destinationUserId:user.uid,
+      amount:getValues("usdtAmount"),
+      currency:transaction.currency.usdt,
+      type:transaction.type.deposit,
+      description:"",
+      link:getValues("transactionLink"),
+    });
+
+    if (response.status === 200) {
+      triggerAlert({
+        title: "Success!",
+        message: "Deposit submitted",
+        type: alertTypes.success,
+      });
+    }
+  } catch (error) {
+    // Reset pending status in case of an error
+    console.error(error);
+    // Check error response and handle specific status codes
+    if (error.response) {
+      const { status } = error.response;
+ if (status === 500) {
+        triggerAlert({
+          title: "Server Error",
+          message: "An internal server error occurred. Please try again later.",
+          type: alertTypes.error,
+        });
+      } else {
+        // Generic error message for other statuses
+        triggerAlert({
+          title: "Operation Failed",
+          message: "Something went wrong. Please try again.",
+          type: alertTypes.error,
+        });
+      }
+    } else {
+      // Handle cases where there is no response (e.g., network errors)
+      triggerAlert({
+        title: "Network Error",
+        message: "Please check your internet connection and try again.",
+        type: alertTypes.error,
+      });
+    }
+  }finally{
+    setPendingStatus(false);
+  }
+};
   return (
     <div className="relative">
-      <UpperHeader pageName={"Deposit"} totalMoney={totalMoney} />
+      <UpperHeader pageName={"Deposit"} totalMoney={user.total} />
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="mt-6 px-5 h-[calc(100vh-15rem)] pb-8 flex flex-col justify-between"
@@ -37,10 +98,10 @@ function Deposite() {
             <div
               className={`mt-2 w-full p-2 border flex items-center justify-between gap-x-2 bg-white border-gray-300 rounded-lg shadow-sm`}
             >
-              <div className="overflow-hidden">{address}</div>
+              <div className="overflow-scroll whitespace-nowrap">{user.uid}</div>
               <buton
                 onClick={() => {
-                  navigator.clipboard.writeText(address);
+                  navigator.clipboard.writeText(user.uid);
                   setCopyClicked(true);
                   setTimeout(() => {
                     setCopyClicked(false);
@@ -72,7 +133,7 @@ function Deposite() {
             >
               <input
                 id="usdtAmount"
-                type="text"
+                type="number"
                 {...register("usdtAmount", {
                   required: "ESDT amount is required",
                 })}
@@ -173,23 +234,23 @@ function Deposite() {
           </div>
           <button
             type="submit"
-            className="relative w-full mt-4 py-3 bg-[#5848A8] text-white rounded-lg shadow-sm"
-          >
-            Submit
+            className={`relative min-h-12 w-full mt-6 py-3 text-white rounded-lg shadow-sm flex items-center justify-center ${pendingStatus?"bg-[#5848a8d0]":"bg-[#5848A8]"}`}
+            >
+              {pendingStatus ? <div className="loader"></div> : "Submit"}
             <span className="absolute left-[50%] translate-x-[-50%] bottom-0 translate-y-1/2 w-28 h-7 bg-[#cccbd365] rounded-full blur-[12px]"></span>
           </button>
         </div>
       </form>
       {showDialog && (
-        <Dialog closeModal={() => setShowDialog(false)}>
+        <Dialog closeModal={() => setShowDialog(false)} action={sendData}>
           <div className="mt-6">
             <div className="flex text-sm justify-between items-center pb-3 border-b-2 border-b-[#E5E5E5] border-dashed">
               <div>Amount:</div>
-              <div className="font-medium">12USDT</div>
+              <div className="font-medium">{getValues("usdtAmount")}</div>
             </div>
             <div className="flex text-sm justify-between items-center mt-2 pb-3 border-b-2 border-b-[#E5E5E5] border-dashed">
               <div>Declared Network:</div>
-              <div className="font-medium">12USDT</div>
+              <div className="font-medium">TRC20</div>
             </div>
             <div className="flex text-sm justify-between items-center mt-2">
               <div>Network Fee:</div>

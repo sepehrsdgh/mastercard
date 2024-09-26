@@ -4,23 +4,16 @@ import { axiosInstanceBackend } from "@/lib/axios";
 
 export async function GET(request) {
   try {
-    const cookies = request.cookies;
+    // Retrieve the Authorization header added by the middleware.
+    const token = request.headers.get("Authorization");
 
-    // Retrieve the 'token' from the cookies
-    const token = cookies.get("token")?.value;
-    if (!token) {
-      return NextResponse.json(
-        { message: "Unauthorized request" },
-        { status: 401 }
-      );
-    }
-
-    // Set the token in the Authorization header for the external request
+    // Make the external request with the token in the Authorization header
     const response = await axiosInstanceBackend.get(API_ROUTES.getUserInfo, {
       headers: {
-        Authorization: token, // Pass token in Authorization header
+        Authorization: token, // Token already passed by middleware
       },
     });
+
     // Return the response data from the external server
     return NextResponse.json(response.data);
   } catch (error) {

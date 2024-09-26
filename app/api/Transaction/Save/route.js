@@ -2,17 +2,24 @@ import { NextResponse } from "next/server";
 import { API_ROUTES } from "@/utils/routes";
 import { axiosInstanceBackend } from "@/lib/axios";
 
-export async function PUT(request) {
+export async function POST(request) {
   try {
-    // Parse the request body
     const body = await request.json();
     const token = request.headers.get("Authorization");
-    const { name, lastName, email } = body;
 
-    // Make the external request with the token in the Authorization header
-    const response = await axiosInstanceBackend.put(
-      API_ROUTES.UpdateUserInfo,
-      { name, lastName, email },
+    const { destinationUserId, amount, currency, type, description, link } = body;
+
+    // Make the external POST request with the body and Authorization header
+    const response = await axiosInstanceBackend.post(
+      API_ROUTES.saveTransaction, // Replace with your actual endpoint
+      {
+        destinationUserId,
+        amount,
+        currency,
+        type,
+        description,
+        link,
+      },
       {
         headers: {
           Authorization: token, // Token passed in the Authorization header

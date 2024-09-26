@@ -4,25 +4,96 @@ import UpperHeader from "../common-componnets/upperHeader";
 import { useForm } from "react-hook-form";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import Dialog from "../common-componnets/dialog";
+import { alertTypes, useAlert } from "@/context/alertContext";
+import { axiosInstance } from "@/lib/axios";
+import { API_ROUTES } from "@/utils/routes";
+import { useUser } from "@/context/userContext";
+import { transaction } from "@/utils/values";
 const deductions = [0.2, 0.4, 0.6, 0.8];
 function Transfer() {
   const {
     register,
     handleSubmit,
+    setValue,
+    getValues,
     formState: { errors },
   } = useForm();
 
-  const [totalMoney, setTotalMoney] = useState(390.38);
+  const { user } = useUser();
+
   const [showDialog, setShowDialog] = useState(false);
+  const [pendingStatus, setPendingStatus] = useState(false); //to indicate submission process
+
+  const { triggerAlert } = useAlert(); // to triger alert when sign up successfuly/failed
 
   const onSubmit = (data) => {
-    console.log(data);
     setShowDialog(true);
+  };
+
+  const sendData = async () => {
+    try {
+      setShowDialog(false);
+      setPendingStatus(true);
+      // Set pending status to true to indicate submission process
+      const response = await axiosInstance.post(API_ROUTES.saveTransaction, {
+        destinationUserId: getValues("accountID"),
+        amount: getValues("transferAmount"),
+        currency: transaction.currency.usdt,
+        type: transaction.type.transfer,
+        description: getValues("description"),
+      });
+
+      if (response.status === 200) {
+        triggerAlert({
+          title: "Success!",
+          message: "Transfer submitted",
+          type: alertTypes.success,
+        });
+      }
+    } catch (error) {
+      // Reset pending status in case of an error
+      console.error(error);
+      // Check error response and handle specific status codes
+      if (error.response) {
+        const { status } = error.response;
+        if (status === 500) {
+          triggerAlert({
+            title: "Server Error",
+            message:
+              "An internal server error occurred. Please try again later.",
+            type: alertTypes.error,
+          });
+        }else if (status === 400) {
+          triggerAlert({
+            title: "Insufficient funds",
+            message:
+              "Transfer amount is more than your account balance",
+            type: alertTypes.error,
+          });
+        }  else {
+          // Generic error message for other statuses
+          triggerAlert({
+            title: "Operation Failed",
+            message: "Something went wrong. Please try again.",
+            type: alertTypes.error,
+          });
+        }
+      } else {
+        // Handle cases where there is no response (e.g., network errors)
+        triggerAlert({
+          title: "Network Error",
+          message: "Please check your internet connection and try again.",
+          type: alertTypes.error,
+        });
+      }
+    } finally {
+      setPendingStatus(false);
+    }
   };
 
   return (
     <div className="relative">
-      <UpperHeader pageName={"Transfer"} totalMoney={totalMoney} />
+      <UpperHeader pageName={"Transfer"} totalMoney={user.total} />
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="mt-6 px-5 h-[calc(100vh-15rem)] pb-8 flex flex-col justify-between"
@@ -44,7 +115,7 @@ function Transfer() {
                 className="w-full focus:outline-none"
               />
               <button
-                onClick={() => {}}
+                onClick={() => {setValue('transferAmount', user.total);}}
                 className={`flex items-center justify-end gap-x-1 px-3 transition-all ease-in-out duration-300 font-semibold  border-l-2 border-l-[#E1E1E1] text-[#5848A8]
                 `}
               >
@@ -57,14 +128,17 @@ function Transfer() {
               </span>
             )}
             <div className="flex justify-between mt-4 items-center text-[#5848A8] font-medium text-sm w-full">
-              {deductions.map((deduct, i) => (
-                <button
-                  key={i}
-                  className="border-[1px] border-[#5848A8] rounded-lg px-2 py-2"
-                >
-                  ${parseFloat(totalMoney * deduct).toFixed(2)}
-                </button>
-              ))}
+              {user.total !== "" &&
+                user.total != 0 &&
+                deductions.map((deduct, i) => (
+                  <button
+                    key={i}
+                    onClick={() => {setValue('transferAmount', parseFloat(user.total * deduct).toFixed(2));}}
+                    className="border-[1px] border-[#5848A8] rounded-lg px-2 py-2"
+                  >
+                    ${parseFloat(user.total * deduct).toFixed(2)}
+                  </button>
+                ))}
             </div>
           </div>
           {/* Account ID to transfer */}
@@ -83,7 +157,7 @@ function Transfer() {
                   required: "Account ID is required",
                 })}
                 className={`w-full focus:outline-none`}
-                placeholder="Enter amount"
+                placeholder="Enter destination account ID"
               />
               <button className="group relative">
                 <AiOutlineInfoCircle className="text-gray-400" size={20} />
@@ -136,24 +210,26 @@ function Transfer() {
           </div>
           <button
             type="submit"
-            className="relative w-full mt-4 py-3 bg-[#5848A8] text-white rounded-lg shadow-sm"
+            className={`relative min-h-12 w-full mt-6 py-3 text-white rounded-lg shadow-sm flex items-center justify-center ${
+              pendingStatus ? "bg-[#5848a8d0]" : "bg-[#5848A8]"
+            }`}
           >
-            Transfer
+            {pendingStatus ? <div className="loader"></div> : "Transfer"}
             <span className="absolute left-[50%] translate-x-[-50%] bottom-0 translate-y-1/2 w-28 h-7 bg-[#cccbd365] rounded-full blur-[12px]"></span>
           </button>
         </div>
       </form>
       {/* confirmation modal */}
       {showDialog && (
-        <Dialog closeModal={() => setShowDialog(false)}>
+        <Dialog closeModal={() => setShowDialog(false)} action={sendData}>
           <div className="mt-6">
             <div className="flex text-sm justify-between items-center pb-3 border-b-2 border-b-[#E5E5E5] border-dashed">
               <div>Amount:</div>
-              <div className="font-medium">12USDT</div>
+              <div className="font-medium">{getValues("transferAmount")}</div>
             </div>
             <div className="flex text-sm justify-between items-center mt-2">
               <div>Destination Account ID:</div>
-              <div className="font-medium">12USDT</div>
+              <div className="font-medium">{getValues("accountID")}</div>
             </div>
             <div className="mt-8 bg-[#5848A80d] rounded-xl p-3 text-xs font-medium text-[#5848A8]">
               I confirm that I want to transfer the specified amount to the

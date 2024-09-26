@@ -25,7 +25,7 @@ export async function POST(request) {
       response.cookies.set("token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        maxAge: LongOrShortToken ? 60 * 60 * 24 * 30 : 60 * 60, // Long-term if client clicked on remember me
+        maxAge: LongOrShortToken ? 60 * 60 * 24 * 30 *6  :  60 * 60 * 24 * 30, // Long-term if client clicked on remember me
         path: "/",
       });
 
