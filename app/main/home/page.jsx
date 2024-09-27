@@ -103,9 +103,9 @@ function UpperBody({user}) {
               </div>
             </div>
           </div>
-          <div className="bg-[#ffffff1e] p-2 rounded-full">
-            <BiTransferAlt size={25} />
-          </div>
+          <Link href={"/logs"} className="bg-[#ffffff1e] z-10 p-2 rounded-full">
+          <BiTransferAlt size={25} />
+        </Link>
         </div>
         <div className="mt-8 text-center">
           <div className="text-[#ffffffa8] text-base font-medium">

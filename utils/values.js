@@ -1,4 +1,4 @@
 export const transaction = {
-    type:{deposit:1,transfer:2},
+    type:{deposit:"DEPOSIT",transfer:"TRANSFER"},
     currency:{usdt:1}
 }

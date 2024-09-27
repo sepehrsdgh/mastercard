@@ -1,4 +1,5 @@
-const svgIcons = {deposit:<svg width="45" height="45" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+const svgIcons = {
+    DEPOSIT:<svg width="45" height="45" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g filter="url(#filter0_b_180_657)">
     <rect width="45" height="45" rx="22.5" fill="#26A17B" fillOpacity="0.05"/>
     <g clipPath="url(#clip0_180_657)">
@@ -20,7 +21,7 @@ const svgIcons = {deposit:<svg width="45" height="45" viewBox="0 0 45 45" fill="
     </clipPath>
     </defs>
     </svg>,
-    transfer:<svg width="45" height="45" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+    TRANSFER:<svg width="45" height="45" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g filter="url(#filter0_b_180_674)">
     <rect width="45" height="45" rx="22.5" fill="#177EF8" fillOpacity="0.05"/>
     <path d="M24.05 27.25H22.17C20.84 27.25 19.75 26.13 19.75 24.75C19.75 24.34 20.09 24 20.5 24C20.91 24 21.25 24.34 21.25 24.75C21.25 25.3 21.66 25.75 22.17 25.75H24.05C24.44 25.75 24.75 25.4 24.75 24.97C24.75 24.43 24.6 24.35 24.26 24.23L21.25 23.18C20.61 22.95 19.75 22.49 19.75 21.02C19.75 19.77 20.74 18.74 21.95 18.74H23.83C25.16 18.74 26.25 19.86 26.25 21.24C26.25 21.65 25.91 21.99 25.5 21.99C25.09 21.99 24.75 21.65 24.75 21.24C24.75 20.69 24.34 20.24 23.83 20.24H21.95C21.56 20.24 21.25 20.59 21.25 21.02C21.25 21.56 21.4 21.64 21.74 21.76L24.75 22.81C25.39 23.04 26.25 23.5 26.25 24.97C26.25 26.23 25.26 27.25 24.05 27.25Z" fill="#177EF8"/>
@@ -38,7 +39,7 @@ const svgIcons = {deposit:<svg width="45" height="45" viewBox="0 0 45 45" fill="
     </filter>
     </defs>
     </svg>,
-    company:<svg width="45" height="45" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+    CARD:<svg width="45" height="45" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g filter="url(#filter0_b_180_718)">
     <g clipPath="url(#clip0_180_718)">
     <rect width="45" height="45" rx="22.5" fill="#535353" fillOpacity="0.05"/>

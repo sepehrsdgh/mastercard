@@ -63,14 +63,19 @@ function Transfer() {
               "An internal server error occurred. Please try again later.",
             type: alertTypes.error,
           });
-        }else if (status === 400) {
+        } else if (status === 409) {
           triggerAlert({
             title: "Insufficient funds",
-            message:
-              "Transfer amount is more than your account balance",
+            message: "Transfer amount is more than your account balance",
             type: alertTypes.error,
           });
-        }  else {
+        } else if (status === 400) {
+          triggerAlert({
+            title: "Invalid destination",
+            message: "Seems given account ID is wrong",
+            type: alertTypes.error,
+          });
+        } else {
           // Generic error message for other statuses
           triggerAlert({
             title: "Operation Failed",
@@ -112,10 +117,14 @@ function Transfer() {
                   required: "Transfer amount is required",
                 })}
                 type="number"
+                step=".01"
                 className="w-full focus:outline-none"
               />
               <button
-                onClick={() => {setValue('transferAmount', user.total);}}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setValue("transferAmount", user.total);
+                }}
                 className={`flex items-center justify-end gap-x-1 px-3 transition-all ease-in-out duration-300 font-semibold  border-l-2 border-l-[#E1E1E1] text-[#5848A8]
                 `}
               >
@@ -133,7 +142,13 @@ function Transfer() {
                 deductions.map((deduct, i) => (
                   <button
                     key={i}
-                    onClick={() => {setValue('transferAmount', parseFloat(user.total * deduct).toFixed(2));}}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setValue(
+                        "transferAmount",
+                        parseFloat(user.total * deduct).toFixed(2)
+                      );
+                    }}
                     className="border-[1px] border-[#5848A8] rounded-lg px-2 py-2"
                   >
                     ${parseFloat(user.total * deduct).toFixed(2)}

@@ -5,6 +5,7 @@ export const API_ROUTES = {
     changePassword:"/User/ChangePassword",
     getUserInfo:"/User/GetUserInfo",
     UpdateUserInfo:"/User/UpdateUserInfo",
-    saveTransaction:"/Transaction/Save"
+    saveTransaction:"/Transaction/Save",
+    getUserTransaction:"/Transaction/GetUserTransactions",
   };
   
