@@ -40,9 +40,9 @@ const sendData = async () =>{
       destinationUserId:user.uid,
       amount:getValues("usdtAmount"),
       currency:transaction.currency.usdt,
-      type:transaction.type.deposit,
+      type:1,
       description:"",
-      link:getValues("transactionLink"),
+      link:getValues("transactionLink"), 
     });
 
     if (response.status === 200) {

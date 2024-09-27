@@ -39,7 +39,7 @@ function Transfer() {
         destinationUserId: getValues("accountID"),
         amount: getValues("transferAmount"),
         currency: transaction.currency.usdt,
-        type: transaction.type.transfer,
+        type:2,
         description: getValues("description"),
       });
 
