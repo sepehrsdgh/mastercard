@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
 // Middleware logic to check for token in cookies and authorize requests
 function handleRequestWithCookieCheck(request) {
@@ -16,20 +16,22 @@ function handleRequestWithCookieCheck(request) {
 
   // If token exists, modify the request by adding the Authorization header
   const modifiedHeaders = new Headers(request.headers);
-  modifiedHeaders.set('Authorization', token);
+  modifiedHeaders.set("Authorization", token);
 
   // Continue with the modified request (including the Authorization header)
   return NextResponse.next({
     request: {
-      headers: modifiedHeaders
-    }
+      headers: modifiedHeaders,
+    },
   });
 }
 
 export function middleware(request) {
   const url = request.nextUrl.pathname;
   // Apply the middleware for specific routes
-  if (url.startsWith('/api/User/') || url.startsWith('/api/Transaction/')) {
+  if (url.startsWith("/api/User/") || url.startsWith("/api/Transaction/")) {
+    if (url.startsWith("/api/User/Login") || url.startsWith("/api/User/SignUp"))
+      return NextResponse.next();
     return handleRequestWithCookieCheck(request);
   }
 
@@ -39,5 +41,5 @@ export function middleware(request) {
 
 // Apply middleware to specific API paths
 export const config = {
-  matcher: ['/api/User/:path*', '/api/Transaction/:path*'],
+  matcher: ["/api/User/:path*", "/api/Transaction/:path*"],
 };
